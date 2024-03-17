@@ -10,8 +10,10 @@ var mouse_offset
 #func _physics_process(delta):
 	#if Input.is_action_pressed("mouse"):
 		#apply_central_impulse(SPRING_CONSTANT * get_local_mouse_position() * delta)
+@export var seed : PackedScene
 
 func _ready():
+	$pot_picked.visible = false
 	screen_size= get_viewport_rect().size
 
 func _process(delta):
@@ -22,12 +24,19 @@ func _process(delta):
 			if held:
 				held =false
 				$CollisionShape2D.disabled=false
+				$pot_picked.visible = false
+				$TextureRect.visible = true
 			else:
 				held = true
 				mouse_offset = global_transform.origin - get_global_mouse_position()
 				$CollisionShape2D.disabled=true
+				$pot_picked.visible = true
+				$TextureRect.visible = false
+				$pot_picked2.play()
 	if Input.is_action_just_pressed("mouse_right"):
 		$CollisionShape2D.disabled=false
+		$pot_picked.visible = false
+		$TextureRect.visible = true
 		held = false
 	if held:
 		global_transform.origin = get_global_mouse_position() + mouse_offset
@@ -45,5 +54,7 @@ func _on_mouse_entered():
 func _on_texture_rect_mouse_exited():
 	$TextureRect.set_modulate("#ffffff")
 	on_area = false
+	
+
 	
 
