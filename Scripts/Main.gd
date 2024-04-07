@@ -1,7 +1,7 @@
 extends Node2D
 
 var screen_size
-var day_counter= 1
+var day_counter = 0
 var daytime = true
 var day_length = 10
 var night_length = 15
@@ -10,15 +10,22 @@ var light_rotation
 
 var time = 0
 
+@export var seed_button: PackedScene
 @export var pot : PackedScene
 
 func _ready():
 	screen_size = get_viewport_rect().size
 	$DayTimer.set_wait_time(day_length)
 	$DayTimer.start()
+	
 	var pot_instance = pot.instantiate()
-	pot_instance.position= Vector2(randi_range(0,screen_size.x),randi_range(0,screen_size.y))
+	pot_instance.position= Vector2(randi_range(0,screen_size.x),randi_range(0,screen_size.y-70))
 	add_child(pot_instance)
+	
+	var pot_instance2 = pot.instantiate()
+	pot_instance2.position= Vector2(randi_range(0,screen_size.x),randi_range(0,screen_size.y-70))
+	add_child(pot_instance2)
+	
 	var tween = create_tween()
 	tween.tween_property($NightFilter, "color", Color.WHITE, 2)
 	$WindowLight.color = Color.html("ffffff")
@@ -39,11 +46,11 @@ func _process(delta):
 	$TimeLabel.show()
 
 
-
 func _on_button_pressed():
 	var pot_instance = pot.instantiate()
 	pot_instance.position= Vector2(randi_range(0,screen_size.x),randi_range(0,screen_size.y))
 	add_child(pot_instance)
+	
 
 
 func _on_day_timer_timeout():
@@ -72,3 +79,15 @@ func _on_night_timer_timeout():
 	var tween_window = create_tween()
 	tween_window.tween_property($WindowLight, "color", Color.html("#ffffff"), 3)
 	
+
+
+
+func _on_tabletop_body_entered(body):
+	if body.has_method("drop"):
+		body.drop()
+
+
+func _on_sunflower_pressed():
+	var seed_instance = seed_button.instantiate()
+	seed_instance.position= get_global_mouse_position() 
+	add_child(seed_instance)
