@@ -1,0 +1,71 @@
+[gd_scene load_steps=9 format=3 uid="uid://jwiagnrnjrmf"]
+
+[ext_resource type="Script" path="res://Scripts/Pot.gd" id="1_btvh5"]
+[ext_resource type="Texture2D" uid="uid://ddtgcn4y4dly5" path="res://Images/paso.png" id="1_toblf"]
+[ext_resource type="PackedScene" uid="uid://clfrtblu0ablb" path="res://Scripts/Sunflower.tscn" id="2_rxtis"]
+[ext_resource type="Texture2D" uid="uid://dbxefmoy2tn11" path="res://Images/paso_carried.png" id="3_rfhgt"]
+[ext_resource type="AudioStream" uid="uid://cy03peeb15335" path="res://Audio/Audio_Always_Loaded.073.ogg" id="4_svcu3"]
+[ext_resource type="AudioStream" uid="uid://73v5lrku1455" path="res://Audio/Audio_Always_Loaded.069.ogg" id="5_pcn2r"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fhj78"]
+radius = 56.0
+height = 186.0
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_bps56"]
+polygon = PackedVector2Array(-100, -99, -94, -99, -88, -96, -64, -92, -29, -88, 20, -85, 77, -90, 92, -94, 103, -99, 109, -81, 100, -76, 86, -34, -86, -40, -93, -75, -102, -83)
+
+[node name="Pot" type="RigidBody2D" groups=["Pot", "pickable"]]
+input_pickable = true
+mass = 24.04
+script = ExtResource("1_btvh5")
+sunflower = ExtResource("2_rxtis")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0.803922, 0.803922, 0.752941, 1)
+offset_left = -150.0
+offset_top = -83.0
+offset_right = 158.0
+offset_bottom = 90.0
+mouse_default_cursor_shape = 7
+texture = ExtResource("1_toblf")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="pot_picked" type="TextureRect" parent="."]
+modulate = Color(0.803922, 0.803922, 0.752941, 1)
+offset_left = -160.0
+offset_top = -83.0
+offset_right = 148.0
+offset_bottom = 90.0
+scale = Vector2(1.05, 1.05)
+mouse_default_cursor_shape = 7
+texture = ExtResource("3_rfhgt")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 17)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_fhj78")
+
+[node name="hold_timer" type="Timer" parent="."]
+wait_time = 500.0
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+position = Vector2(0, 82)
+occluder = SubResource("OccluderPolygon2D_bps56")
+
+[node name="pot_picked2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_svcu3")
+
+[node name="pot_dropped" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_pcn2r")
+
+[node name="plant_position" type="Marker2D" parent="."]
+position = Vector2(0, -32)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="mouse_exited" from="TextureRect" to="." method="_on_texture_rect_mouse_exited"]
+[connection signal="mouse_exited" from="pot_picked" to="." method="_on_texture_rect_mouse_exited"]

@@ -1,0 +1,114 @@
+[gd_scene load_steps=8 format=3 uid="uid://ulhcjrecw6cu"]
+
+[ext_resource type="Script" path="res://Scripts/Main.gd" id="1_vnitf"]
+[ext_resource type="PackedScene" uid="uid://jwiagnrnjrmf" path="res://Scripts/Pot.tscn" id="2_fgks8"]
+[ext_resource type="PackedScene" uid="uid://bscxirsleadin" path="res://Scripts/Seed.tscn" id="3_6qane"]
+[ext_resource type="Texture2D" uid="uid://bhjfr04joavhk" path="res://Images/Background.png" id="3_qjw5m"]
+[ext_resource type="AudioStream" uid="uid://73v5lrku1455" path="res://Audio/Audio_Always_Loaded.069.ogg" id="4_ho067"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y6li4"]
+size = Vector2(1301, 10)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_6ws5m"]
+polygon = PackedVector2Array(-73, 0, -73, -20, -298, -21, -300, 3, -251.936, 2.36481)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_vnitf")
+pot = ExtResource("2_fgks8")
+plant_seed = ExtResource("3_6qane")
+
+[node name="tabletop" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="tabletop"]
+position = Vector2(300, 701)
+shape = SubResource("RectangleShape2D_y6li4")
+
+[node name="Table2" type="StaticBody2D" parent="."]
+position = Vector2(0, -10)
+
+[node name="Table" type="LightOccluder2D" parent="Table2"]
+position = Vector2(1285, 745)
+scale = Vector2(5.145, 0.58)
+occluder = SubResource("OccluderPolygon2D_6ws5m")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Table2"]
+position = Vector2(306, 740)
+shape = SubResource("RectangleShape2D_y6li4")
+
+[node name="DayTimer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="NightFilter" type="CanvasModulate" parent="."]
+modulate = Color(1, 1, 1, 0.211765)
+self_modulate = Color(0, 0, 0, 0.345098)
+color = Color(0.27451, 0.380392, 0.4, 1)
+
+[node name="NightTimer" type="Timer" parent="."]
+wait_time = 30.0
+one_shot = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -1
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_qjw5m")
+
+[node name="Light" type="DirectionalLight2D" parent="."]
+position = Vector2(300, 0)
+rotation = 0.410152
+color = Color(1, 0.807843, 0.690196, 1)
+energy = 1.05
+range_z_max = 1
+shadow_enabled = true
+shadow_filter = 2
+shadow_filter_smooth = 16.0
+
+[node name="Wall" type="LightOccluder2D" parent="."]
+position = Vector2(546, -44)
+scale = Vector2(5.145, 0.58)
+occluder = SubResource("OccluderPolygon2D_6ws5m")
+
+[node name="Wall2" type="LightOccluder2D" parent="."]
+position = Vector2(1985, -52)
+scale = Vector2(5.145, 0.58)
+occluder = SubResource("OccluderPolygon2D_6ws5m")
+
+[node name="TimeLabel" type="Label" parent="."]
+offset_left = 510.0
+offset_top = 11.0
+offset_right = 550.0
+offset_bottom = 34.0
+theme_override_colors/font_color = Color(0.219608, 0.184314, 0.137255, 1)
+text = "Hello"
+
+[node name="DayCountLabel" type="Label" parent="."]
+offset_left = 510.0
+offset_top = 29.0
+offset_right = 558.0
+offset_bottom = 52.0
+theme_override_colors/font_color = Color(0.219608, 0.184314, 0.137255, 1)
+text = "Day: 1"
+
+[node name="WindowLight" type="ColorRect" parent="."]
+z_index = -2
+offset_left = 193.0
+offset_top = -34.0
+offset_right = 398.0
+offset_bottom = 79.0
+color = Color(0.152941, 0.192157, 0.321569, 1)
+
+[node name="pot_drop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_ho067")
+
+[node name="Sunflower" type="Button" parent="."]
+z_index = 1
+offset_right = 8.0
+offset_bottom = 8.0
+text = "SunflowerSeed"
+flat = true
+
+[connection signal="body_entered" from="tabletop" to="." method="_on_tabletop_body_entered"]
+[connection signal="timeout" from="DayTimer" to="." method="_on_day_timer_timeout"]
+[connection signal="timeout" from="NightTimer" to="." method="_on_night_timer_timeout"]
+[connection signal="pressed" from="Sunflower" to="." method="_on_sunflower_pressed"]

@@ -30,20 +30,17 @@ func _ready():
 	tween.tween_property($NightFilter, "color", Color.WHITE, 2)
 	$WindowLight.color = Color.html("ffffff")
 	
-func _process(delta):
+func _physics_process(delta: float) -> void:
 	if daytime:
 		day_completion = (day_length-$DayTimer.time_left)/day_length
+		#I think 47 is the angle range of the viewport
 		light_rotation = (day_completion*47)-23.5
 		$Light.rotation = -light_rotation*delta
 		$Light.energy = 1.01 * sin(PI* day_completion)
-	#else:
-		##HSL 195 28 80
-		#pass
-		
+
 	time += 1 * delta
 	var current_time = floor(time)
 	$TimeLabel.text = "Time: " + str(current_time)
-	$TimeLabel.show()
 
 
 func _on_button_pressed():
@@ -71,7 +68,6 @@ func _on_night_timer_timeout():
 	print("It is now daytime")
 	day_counter += 1
 	$DayCountLabel.text = "Day: " + str(day_counter)
-	$DayCountLabel.show()
 	daytime = true
 	time = 0
 	var tween = create_tween()

@@ -1,0 +1,114 @@
+[gd_scene load_steps=11 format=3 uid="uid://jwiagnrnjrmf"]
+
+[ext_resource type="Script" path="res://Scripts/Pot.gd" id="1_btvh5"]
+[ext_resource type="Texture2D" uid="uid://ddtgcn4y4dly5" path="res://Images/paso.png" id="1_toblf"]
+[ext_resource type="Texture2D" uid="uid://cxncv8865f6ol" path="res://Images/paso_new.png" id="3_fe86j"]
+[ext_resource type="Texture2D" uid="uid://dbxefmoy2tn11" path="res://Images/paso_carried.png" id="3_rfhgt"]
+[ext_resource type="AudioStream" uid="uid://cy03peeb15335" path="res://Audio/Audio_Always_Loaded.073.ogg" id="4_svcu3"]
+[ext_resource type="AudioStream" uid="uid://73v5lrku1455" path="res://Audio/Audio_Always_Loaded.069.ogg" id="5_pcn2r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cpeu6"]
+size = Vector2(86, 162)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_bps56"]
+polygon = PackedVector2Array(-100, -99, -94, -99, -88, -96, -64, -92, -29, -88, 20, -85, 77, -90, 92, -94, 103, -99, 109, -81, 100, -76, 86, -34, -86, -40, -93, -75, -102, -83)
+
+[sub_resource type="Gradient" id="Gradient_2ejo6"]
+colors = PackedColorArray(1, 0.783, 0.07, 1, 1, 0.886432, 0.716935, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_y27tg"]
+gradient = SubResource("Gradient_2ejo6")
+width = 2
+height = 2
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)
+
+[node name="Pot" type="RigidBody2D" groups=["Pot", "pickable"]]
+input_pickable = true
+mass = 24.04
+max_contacts_reported = 1
+contact_monitor = true
+script = ExtResource("1_btvh5")
+
+[node name="TextureRect_old" type="TextureRect" parent="."]
+visible = false
+modulate = Color(0.803922, 0.803922, 0.752941, 1)
+offset_left = -150.0
+offset_top = -83.0
+offset_right = 158.0
+offset_bottom = 90.0
+mouse_default_cursor_shape = 7
+texture = ExtResource("1_toblf")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0.803922, 0.803922, 0.752941, 1)
+y_sort_enabled = true
+offset_left = -81.0
+offset_top = -237.0
+offset_right = 227.0
+offset_bottom = -64.0
+scale = Vector2(2, 2)
+mouse_default_cursor_shape = 7
+texture = ExtResource("3_fe86j")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="pot_picked" type="TextureRect" parent="."]
+visible = false
+modulate = Color(0.803922, 0.803922, 0.752941, 1)
+offset_left = -160.0
+offset_top = -83.0
+offset_right = 148.0
+offset_bottom = 90.0
+scale = Vector2(1.05, 1.05)
+mouse_default_cursor_shape = 7
+texture = ExtResource("3_rfhgt")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(6.99998, 22)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_cpeu6")
+
+[node name="hold_timer" type="Timer" parent="."]
+wait_time = 500.0
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+position = Vector2(3, 83)
+scale = Vector2(0.76, 1)
+occluder = SubResource("OccluderPolygon2D_bps56")
+
+[node name="pot_picked2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_svcu3")
+
+[node name="pot_dropped" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_pcn2r")
+
+[node name="plant_position" type="Marker2D" parent="."]
+position = Vector2(0, -32)
+
+[node name="absorb_particles" type="CPUParticles2D" parent="."]
+z_index = 1
+position = Vector2(4, -31)
+emitting = false
+amount = 40
+lifetime = 0.75
+one_shot = true
+randomness = 0.09
+texture = SubResource("GradientTexture2D_y27tg")
+emission_shape = 1
+emission_sphere_radius = 20.0
+direction = Vector2(0, -1)
+spread = 70.0
+gravity = Vector2(0, -100)
+initial_velocity_max = 83.34
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="mouse_exited" from="TextureRect_old" to="." method="_on_texture_rect_mouse_exited"]
+[connection signal="mouse_exited" from="TextureRect" to="." method="_on_texture_rect_mouse_exited"]
+[connection signal="mouse_exited" from="pot_picked" to="." method="_on_texture_rect_mouse_exited"]

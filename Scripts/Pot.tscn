@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://jwiagnrnjrmf"]
+[gd_scene load_steps=15 format=3 uid="uid://jwiagnrnjrmf"]
 
 [ext_resource type="Script" path="res://Scripts/Pot.gd" id="1_btvh5"]
 [ext_resource type="Texture2D" uid="uid://ddtgcn4y4dly5" path="res://Images/paso.png" id="1_toblf"]
@@ -18,14 +18,34 @@ colors = PackedColorArray(1, 0.783, 0.07, 1, 1, 0.886432, 0.716935, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_y27tg"]
 gradient = SubResource("Gradient_2ejo6")
-width = 2
-height = 2
+width = 5
+height = 5
 fill_from = Vector2(0, 1)
 fill_to = Vector2(0, 0)
 
+[sub_resource type="Curve" id="Curve_pshym"]
+min_value = -200.0
+max_value = 200.0
+_data = [Vector2(0, -200), 0.0, 560.0, 0, 0, Vector2(1, 200), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_7plit"]
+max_value = 200.0
+_data = [Vector2(0, 200), 0.0, 22.0483, 0, 0, Vector2(1, 1), -642.609, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Environment" id="Environment_bqhtj"]
+glow_enabled = true
+glow_normalized = true
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_07r7d"]
+
 [node name="Pot" type="RigidBody2D" groups=["Pot", "pickable"]]
+z_index = 1
+position = Vector2(-4, 43)
 input_pickable = true
-mass = 24.04
+mass = 100.0
+can_sleep = false
 max_contacts_reported = 1
 contact_monitor = true
 script = ExtResource("1_btvh5")
@@ -44,7 +64,7 @@ stretch_mode = 4
 
 [node name="TextureRect" type="TextureRect" parent="."]
 modulate = Color(0.803922, 0.803922, 0.752941, 1)
-y_sort_enabled = true
+z_index = 1
 offset_left = -81.0
 offset_top = -237.0
 offset_right = 227.0
@@ -77,6 +97,7 @@ shape = SubResource("RectangleShape2D_cpeu6")
 wait_time = 500.0
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+z_index = -1
 position = Vector2(3, 83)
 scale = Vector2(0.76, 1)
 occluder = SubResource("OccluderPolygon2D_bps56")
@@ -94,17 +115,26 @@ position = Vector2(0, -32)
 z_index = 1
 position = Vector2(4, -31)
 emitting = false
-amount = 40
+amount = 100
 lifetime = 0.75
 one_shot = true
 randomness = 0.09
 texture = SubResource("GradientTexture2D_y27tg")
-emission_shape = 1
-emission_sphere_radius = 20.0
+emission_shape = 3
+emission_rect_extents = Vector2(30, 10)
 direction = Vector2(0, -1)
-spread = 70.0
+spread = 6.85
 gravity = Vector2(0, -100)
 initial_velocity_max = 83.34
+linear_accel_curve = SubResource("Curve_pshym")
+anim_speed_curve = SubResource("Curve_7plit")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="absorb_particles"]
+environment = SubResource("Environment_bqhtj")
+camera_attributes = SubResource("CameraAttributesPractical_07r7d")
+
+[node name="PlantPosition" type="Marker2D" parent="."]
+position = Vector2(4, -29)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

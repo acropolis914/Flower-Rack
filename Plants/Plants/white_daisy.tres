@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="Plant" load_steps=2 format=3 uid="uid://bpet442rdn1hw"]
+
+[ext_resource type="Script" path="res://Plants/Plant.gd" id="1_y7hjv"]
+
+[resource]
+script = ExtResource("1_y7hjv")
+name = ""

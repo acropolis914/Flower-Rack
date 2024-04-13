@@ -15,16 +15,29 @@ run/main_scene="res://Scripts/Main.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+INTERFACE="*res://interface.gd"
+
+[debug]
+
+gdscript/warnings/unused_local_constant=0
+
 [display]
 
 window/size/viewport_width=600
 window/size/viewport_height=800
+window/size/always_on_top=true
 window/stretch/mode="canvas_items"
 window/handheld/orientation=1
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/script-ide/plugin.cfg")
+enabled=PackedStringArray("res://addons/icon_explorer/plugin.cfg", "res://addons/script-ide/plugin.cfg")
+
+[filesystem]
+
+import/blender/enabled=false
 
 [input]
 
@@ -39,8 +52,12 @@ mouse_right={
 ]
 }
 
+[physics]
+
+2d/physics_engine="Rapier2D"
+2d/default_gravity=1200.0
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
