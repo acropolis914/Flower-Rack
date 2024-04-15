@@ -61,23 +61,24 @@ func _on_mouse_exited():
 	on_area = false
 
 func _on_body_entered(body):
-	if body is Seed && has_seed:
-		print("🪴Pot already has seed")
-		return 
 	if body is Seed && !body.held:
+		if has_seed:
+			print("🪴Pot already has seed")
+			return 
 		catch_seed(body.plant_seed)
-		has_seed = true
 		$absorb_particles.global_position.x = body.position.x
 		body.absorb()
-		$absorb_particles.emitting = true
-		plant=body.plant_seed
-		var seed_instance = PlantScene.new()
-		seed_instance.plant_seed = plant
-		add_child(seed_instance)
-		seed_instance.position=$PlantPosition.position
-		seed_instance.show_seed()
-		seed_instance.on_ground()
+
 	
 func catch_seed(plant_seed:Plant):
 	print("Picked up " + plant_seed.plant_name)
+	print(plant_seed)
+	has_seed = true
+	$absorb_particles.emitting = true
+	var seed_instance = PlantScene.new()
+	seed_instance.position=$PlantPosition.position
+	seed_instance.plant_seed = plant_seed
+	add_child(seed_instance)
+	seed_instance.show_seed()
+	seed_instance.on_ground()
 	

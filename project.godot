@@ -25,11 +25,17 @@ gdscript/warnings/unused_local_constant=0
 
 [display]
 
-window/size/viewport_width=600
-window/size/viewport_height=800
-window/size/always_on_top=true
+window/size/viewport_width=300
+window/size/viewport_height=400
+window/size/initial_position_type=0
+window/size/initial_position=Vector2i(1800, 1000)
 window/stretch/mode="canvas_items"
+window/stretch/scale=0.5
 window/handheld/orientation=1
+
+[editor]
+
+movie_writer/movie_file="C:/Users/Acropolis/Desktop/PolPassionProjects/FlowerRack/export.avi"
 
 [editor_plugins]
 

@@ -14,8 +14,8 @@ var IMPLEMENTS= "Plantable"
 func _ready():
 	seed_instance = PlantScene.new()
 	seed_instance.plant_seed = plant_seed
-	add_child(seed_instance)
 	seed_instance.show_seed()
+	add_child(seed_instance)
 	
 	contact_monitor= true
 	screen_size= get_viewport_rect().size
