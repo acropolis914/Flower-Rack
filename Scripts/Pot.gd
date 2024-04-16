@@ -26,7 +26,7 @@ func _process(delta):
 	if held:
 		var new_position = get_global_mouse_position() + mouse_offset
 		new_position = new_position.clamp(Vector2.ZERO, screen_size)
-		global_transform.origin = new_position
+		move_and_collide(new_position - global_transform.origin)
 		rotation = lerp(0.0,wiggle,.5)
 		previous_wiggle = wiggle
 		
@@ -35,15 +35,15 @@ func _process(delta):
 			held = false
 			velocity = 0
 			$CollisionShape2D.disabled=false
-			#$pot_picked.visible = false
-			$TextureRect.visible = true	
+			$pot_picked.visible = false
+			$pot_onfloor.visible = true	
 		
 	elif on_area && Input.is_action_just_pressed("mouse_left"):
 			held = true
 			mouse_offset = global_transform.origin - get_global_mouse_position()
-			$CollisionShape2D.disabled=true
-			$pot_picked.visible = false #tmp
-			$TextureRect.visible = true #temp
+			$CollisionShape2D.disabled=false #we use move and collide kasi
+			$pot_picked.visible = true #tmp
+			$pot_onfloor.visible = false #temp
 			$pot_picked2.play()
 
 
@@ -54,31 +54,35 @@ func drop():
 
 func _on_mouse_entered():
 	on_area = true
-	$TextureRect.set_modulate("#cdcdcd")
+	$pot_onfloor.set_modulate("#cdcdcd")
 
 func _on_mouse_exited():
-	$TextureRect.set_modulate("#ffffff")
+	$pot_onfloor.set_modulate("#ffffff")
 	on_area = false
 
 func _on_body_entered(body):
 	if body is Seed && !body.held:
 		if has_seed:
 			print("🪴Pot already has seed")
-			return 
-		catch_seed(body.plant_seed)
+			#return 
+		catch_seed(body.plant_seed,body.position.x-position.x)
 		$absorb_particles.global_position.x = body.position.x
 		body.absorb()
 
 	
-func catch_seed(plant_seed:Plant):
+func catch_seed(plant_seed:Plant,x:int):
 	print("Picked up " + plant_seed.plant_name)
 	print(plant_seed)
 	has_seed = true
 	$absorb_particles.emitting = true
 	var seed_instance = PlantScene.new()
-	seed_instance.position=$PlantPosition.position
+	seed_instance.global_position=Vector2(x,$PlantPosition.position.y+randf_range(-5,5))
 	seed_instance.plant_seed = plant_seed
 	add_child(seed_instance)
 	seed_instance.show_seed()
 	seed_instance.on_ground()
 	
+
+
+func _on_screen_exited() -> void:
+	queue_free()

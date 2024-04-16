@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://jwiagnrnjrmf"]
+[gd_scene load_steps=16 format=3 uid="uid://jwiagnrnjrmf"]
 
 [ext_resource type="Script" path="res://Scripts/Pot.gd" id="1_btvh5"]
 [ext_resource type="Texture2D" uid="uid://ddtgcn4y4dly5" path="res://Images/paso.png" id="1_toblf"]
-[ext_resource type="Texture2D" uid="uid://cxncv8865f6ol" path="res://Images/paso_new.png" id="3_fe86j"]
+[ext_resource type="Texture2D" uid="uid://bagv2u5pkwkkm" path="res://Images/Sprite-0004.png" id="3_l5m6d"]
 [ext_resource type="Texture2D" uid="uid://dbxefmoy2tn11" path="res://Images/paso_carried.png" id="3_rfhgt"]
+[ext_resource type="Texture2D" uid="uid://6wcad0cjwm4v" path="res://Images/Sprite-0004_withshadow.png" id="4_g4mlb"]
 [ext_resource type="AudioStream" uid="uid://cy03peeb15335" path="res://Audio/Audio_Always_Loaded.073.ogg" id="4_svcu3"]
 [ext_resource type="AudioStream" uid="uid://73v5lrku1455" path="res://Audio/Audio_Always_Loaded.069.ogg" id="5_pcn2r"]
 
@@ -62,20 +63,33 @@ texture = ExtResource("1_toblf")
 expand_mode = 3
 stretch_mode = 4
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="pot_picked" type="TextureRect" parent="."]
 modulate = Color(0.803922, 0.803922, 0.752941, 1)
 z_index = 1
-offset_left = -81.0
-offset_top = -237.0
-offset_right = 227.0
-offset_bottom = -64.0
-scale = Vector2(2, 2)
+offset_left = -250.0
+offset_top = -484.0
+offset_right = 58.0
+offset_bottom = -311.0
+scale = Vector2(4, 4)
 mouse_default_cursor_shape = 7
-texture = ExtResource("3_fe86j")
+texture = ExtResource("3_l5m6d")
 expand_mode = 3
 stretch_mode = 4
 
-[node name="pot_picked" type="TextureRect" parent="."]
+[node name="pot_onfloor" type="TextureRect" parent="."]
+modulate = Color(0.803922, 0.803922, 0.752941, 1)
+z_index = 1
+offset_left = -100.0
+offset_top = -40.0
+offset_right = -43.6364
+offset_bottom = -10.0
+scale = Vector2(4, 4)
+mouse_default_cursor_shape = 7
+texture = ExtResource("4_g4mlb")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="pot_picked_old" type="TextureRect" parent="."]
 visible = false
 modulate = Color(0.803922, 0.803922, 0.752941, 1)
 offset_left = -160.0
@@ -140,5 +154,6 @@ position = Vector2(4, -29)
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
 [connection signal="mouse_exited" from="TextureRect_old" to="." method="_on_texture_rect_mouse_exited"]
-[connection signal="mouse_exited" from="TextureRect" to="." method="_on_texture_rect_mouse_exited"]
 [connection signal="mouse_exited" from="pot_picked" to="." method="_on_texture_rect_mouse_exited"]
+[connection signal="mouse_exited" from="pot_onfloor" to="." method="_on_texture_rect_mouse_exited"]
+[connection signal="mouse_exited" from="pot_picked_old" to="." method="_on_texture_rect_mouse_exited"]

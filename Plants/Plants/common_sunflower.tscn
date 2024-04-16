@@ -1,10 +1,23 @@
-[gd_scene load_steps=7 format=3 uid="uid://ddemw00e2o0sx"]
+[gd_scene load_steps=9 format=3 uid="uid://ddemw00e2o0sx"]
 
 [ext_resource type="Texture2D" uid="uid://y4sw6ssdygx2" path="res://Images/Plants/common_sunflower/seed.png" id="1_nem6w"]
+[ext_resource type="Shader" path="res://Plants/Plants/plant.gdshader" id="1_q50cv"]
 [ext_resource type="Texture2D" uid="uid://bjxo3uidbwj75" path="res://Images/Plants/common_sunflower/stage_0.png" id="2_cbm1t"]
 [ext_resource type="Texture2D" uid="uid://cajgsyjimc784" path="res://Images/Plants/common_sunflower/stage_1.png" id="3_p7u0s"]
 [ext_resource type="Texture2D" uid="uid://nkiox6xf2shv" path="res://Images/Plants/common_sunflower/stage_2.png" id="4_nve1p"]
 [ext_resource type="Texture2D" uid="uid://ctcwna2c6ea5d" path="res://Images/Plants/common_sunflower/stage_3.png" id="5_sk28t"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_btlrm"]
+shader = ExtResource("1_q50cv")
+shader_parameter/speed = 2.0
+shader_parameter/minStrength = 0.089
+shader_parameter/maxStrength = 0.01
+shader_parameter/strengthScale = 100.0
+shader_parameter/interval = 3.5
+shader_parameter/detail = 1.0
+shader_parameter/distortion = 0.0
+shader_parameter/heightOffset = 0.08
+shader_parameter/offset = 2.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bljx4"]
 radius = 14.0
@@ -12,6 +25,7 @@ height = 40.0
 
 [node name="Plant" type="Node2D"]
 z_index = 1
+material = SubResource("ShaderMaterial_btlrm")
 
 [node name="seed" type="Area2D" parent="."]
 
@@ -25,8 +39,10 @@ scale = Vector2(0.5, 0.5)
 shape = SubResource("CapsuleShape2D_bljx4")
 
 [node name="growth_01" type="Area2D" parent="."]
+use_parent_material = true
 
 [node name="texture" type="Sprite2D" parent="growth_01"]
+use_parent_material = true
 position = Vector2(2, -28)
 scale = Vector2(4, 4)
 texture = ExtResource("2_cbm1t")
@@ -38,8 +54,10 @@ scale = Vector2(0.5, 0.5)
 shape = SubResource("CapsuleShape2D_bljx4")
 
 [node name="growth_02" type="Area2D" parent="."]
+use_parent_material = true
 
 [node name="texture" type="Sprite2D" parent="growth_02"]
+use_parent_material = true
 position = Vector2(4, -29)
 scale = Vector2(4, 4)
 texture = ExtResource("3_p7u0s")
@@ -51,8 +69,10 @@ scale = Vector2(0.5, 0.5)
 shape = SubResource("CapsuleShape2D_bljx4")
 
 [node name="growth_03" type="Area2D" parent="."]
+use_parent_material = true
 
 [node name="texture" type="Sprite2D" parent="growth_03"]
+use_parent_material = true
 position = Vector2(4, -29)
 scale = Vector2(4, 4)
 texture = ExtResource("4_nve1p")
@@ -64,8 +84,10 @@ scale = Vector2(0.5, 0.5)
 shape = SubResource("CapsuleShape2D_bljx4")
 
 [node name="growth_04" type="Area2D" parent="."]
+use_parent_material = true
 
 [node name="texture" type="Sprite2D" parent="growth_04"]
+use_parent_material = true
 position = Vector2(4, -29)
 scale = Vector2(4, 4)
 texture = ExtResource("5_sk28t")

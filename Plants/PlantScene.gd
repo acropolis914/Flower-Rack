@@ -25,8 +25,9 @@ func show_seed():
 	
 var count = 0
 func _process(delta: float) -> void:
-	count += delta
-	if count >= 3:
+	if planted:
+		count += delta
+	if count >= 2 and planted:
 		grow()
 		count = 0
 	

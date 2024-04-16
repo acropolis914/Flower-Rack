@@ -24,14 +24,10 @@ func _process(_delta):
 	if on_area && Input.is_action_just_pressed("mouse_left"):
 		if held:
 			held =false
-			#$pot_picked.visible = false
 		else:
 			held = true
 			mouse_offset = global_transform.origin - get_global_mouse_position()
-			#$pot_picked.visible = true
-			#$pot_picked2.play()
 	if Input.is_action_just_pressed("mouse_right"):
-		#$pot_picked.visible = false
 		held = false
 
 	if held:
