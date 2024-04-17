@@ -2,20 +2,27 @@ extends Node2D
 
 var screen_size
 var day_counter = 0
-var daytime = true
-var day_length = 10
-var night_length = 15
-var day_completion
+var daytime : bool = true
+var day_length : int = 10
+var night_length : int = 15
+var day_completion : float 
 var light_rotation
 
 var time = 0
+
+
 
 @export var seed_button: PackedScene
 @export var pot : PackedScene
 
 func _ready():
+	for node in get_tree().get_nodes_in_group("rest_places"):
+		Global.rest_nodes.append(node)
+
 	screen_size = get_viewport_rect().size
 	$DayTimer.set_wait_time(day_length)
+	$NightTimer.set_wait_time(night_length)
+
 	$DayTimer.start()
 	
 	var tween = create_tween()
@@ -34,19 +41,10 @@ func _physics_process(delta: float) -> void:
 	var current_time = floor(time)
 	$TimeLabel.text = "Time: " + str(current_time)
 
-
-func _on_button_pressed():
-	var pot_instance = pot.instantiate()
-	pot_instance.position= Vector2(randi_range(0,screen_size.x),randi_range(0,screen_size.y))
-	add_child(pot_instance)
-	
-
-
 func _on_day_timer_timeout():
-	$NightTimer.set_wait_time(night_length)
 	$NightTimer.start()
 	daytime = false
-	print("It is now nighttime.")
+	print("🌙 It is now nighttime.")
 	$NightFilter.color = Color.WHITE
 	var tween = create_tween()
 	tween.tween_property($NightFilter, "color", Color.html("#466166"), 3)
@@ -55,13 +53,13 @@ func _on_day_timer_timeout():
 
 
 func _on_night_timer_timeout():
-	$DayTimer.set_wait_time(day_length)
 	$DayTimer.start()
-	print("It is now daytime")
+	print("☀️  It is now daytime")
 	day_counter += 1
 	$DayCountLabel.text = "Day: " + str(day_counter)
 	daytime = true
 	time = 0
+
 	var tween = create_tween()
 	tween.tween_property($NightFilter, "color", Color.WHITE, 2)
 	var tween_window = create_tween()

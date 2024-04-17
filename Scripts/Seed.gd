@@ -33,7 +33,7 @@ func _process(_delta):
 	if held:
 		var new_position = get_global_mouse_position() + mouse_offset
 		new_position = new_position.clamp(Vector2.ZERO, screen_size)
-		global_transform.origin = new_position
+		move_and_collide(new_position-global_transform.origin)
 	
 func drop():
 	print("🌱seed dropped on the floor")

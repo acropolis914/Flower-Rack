@@ -16,10 +16,10 @@ var happiness:float
 
 func show_seed():
 	plant = plant_seed.scene.instantiate()
-	plant.name = plant_seed.plant_name
-	plant.propagate_call("set_visible", [false])
-	plant.visible=true
 	add_child(plant)
+	# plant.name = plant_seed.plant_name
+	plant.propagate_call("set_visible", [false])
+	plant.call_deferred("set_visible",[true])
 	$Plant/seed.propagate_call("set_visible",[true])
 
 	
@@ -28,8 +28,9 @@ func _process(delta: float) -> void:
 	if planted:
 		count += delta
 	if count >= 2 and planted:
-		grow()
-		count = 0
+		if current_growth < max_growth:
+			grow()
+			count = 0
 	
 func on_ground():
 	plant_name = plant_seed.plant_name
@@ -45,7 +46,7 @@ func on_ground():
 
 func grow():
 	if current_growth == max_growth:
-		print("AlreadyGrown")
+		# print("AlreadyGrown")
 		return
 	if current_growth == 0:
 		$Plant/seed.hide()

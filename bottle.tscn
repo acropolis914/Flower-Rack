@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://dbv575hnhrdcm"]
+
+[ext_resource type="Texture2D" uid="uid://m2d8gno3geq5" path="res://Images/bottle.png" id="1_3pit3"]
+[ext_resource type="Script" path="res://bottle.gd" id="1_8wa7o"]
+[ext_resource type="Texture2D" uid="uid://ceqsngcg6sg42" path="res://Images/bottlewshadow.png" id="2_ppibd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hd2yj"]
+size = Vector2(11, 2)
+
+[node name="Bottle" type="RigidBody2D"]
+collision_layer = 9
+collision_mask = 13
+mass = 150.0
+script = ExtResource("1_8wa7o")
+
+[node name="bottleSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_3pit3")
+
+[node name="bottleSprite_withShadow" type="Sprite2D" parent="."]
+position = Vector2(0, 1.45772)
+texture = ExtResource("2_ppibd")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-4, -11, -4, -9, -7, -6, -7, 12, -5, 13, 5, 13, 7, 12, 7, -6, 4, -9, 4, -11, 5, -11, 5, -10, 8, -7, 8, 13, 5, 15, -6, 15, -8, 12, -8, -7, -5, -10, -5, -11)
+
+[node name="seedEntrance" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="seedEntrance"]
+position = Vector2(-0.5, -13)
+shape = SubResource("RectangleShape2D_hd2yj")

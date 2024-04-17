@@ -12,7 +12,8 @@ radius = 16.0312
 [node name="Seed" type="RigidBody2D" groups=["seed"]]
 z_index = 1
 position = Vector2(-1, 0)
-mass = 0.01
+collision_mask = 11
+mass = 10.0
 can_sleep = false
 script = ExtResource("1_hpve6")
 plant_seed = ExtResource("2_bvgh1")

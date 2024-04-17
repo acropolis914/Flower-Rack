@@ -1,5 +1,6 @@
 extends RigidBody2D
 
+# var implements = INTERFACE.PlantableArea
 var screen_size
 var on_area : bool
 var held : bool = false
@@ -18,6 +19,8 @@ func _ready():
 
 var previous_velocity = 0
 var previous_wiggle = 0.0
+
+
 func _process(delta):
 	var velocity = Input.get_last_mouse_velocity()
 	var wiggle = deg_to_rad(velocity.y - previous_velocity/800)*delta
@@ -27,6 +30,7 @@ func _process(delta):
 		var new_position = get_global_mouse_position() + mouse_offset
 		new_position = new_position.clamp(Vector2.ZERO, screen_size)
 		move_and_collide(new_position - global_transform.origin)
+
 		rotation = lerp(0.0,wiggle,.5)
 		previous_wiggle = wiggle
 		
@@ -36,7 +40,7 @@ func _process(delta):
 			velocity = 0
 			$CollisionShape2D.disabled=false
 			$pot_picked.visible = false
-			$pot_onfloor.visible = true	
+			$pot_onfloor.visible = true
 		
 	elif on_area && Input.is_action_just_pressed("mouse_left"):
 			held = true
@@ -45,10 +49,16 @@ func _process(delta):
 			$pot_picked.visible = true #tmp
 			$pot_onfloor.visible = false #temp
 			$pot_picked2.play()
+	
+	if held:
+		Global.pot_held = true
+	else:
+		Global.pot_held = false
 
 
 	
 func drop():
+	if held: return
 	$pot_dropped.play()
 	
 

@@ -24,7 +24,12 @@ extends Node
 ## To check if a node implements a custom interface you defined above,
 ## you may type something like the following anywhere in your codebase:
 ## if Interface.node_implements_interface(myNode, Interface.ExampleInterface)
-
+class PlantableArea:
+	var hydration_level: float = 0.0
+	var max_hydration_level: float
+	var nutrients: float = 0.0
+	
+	
 
 ## Takes a node and an interface, and returns true if the given node
 ## implements the given interface, and false if it does not
