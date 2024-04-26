@@ -21,19 +21,29 @@ func _ready():
 	screen_size= get_viewport_rect().size
 
 func _process(_delta):
-	if on_area && Input.is_action_just_pressed("mouse_left"):
-		if held:
-			held =false
-		else:
-			held = true
-			mouse_offset = global_transform.origin - get_global_mouse_position()
-	if Input.is_action_just_pressed("mouse_right"):
-		held = false
-
 	if held:
 		var new_position = get_global_mouse_position() + mouse_offset
 		new_position = new_position.clamp(Vector2.ZERO, screen_size)
-		move_and_collide(new_position-global_transform.origin)
+		move_and_collide(new_position - global_transform.origin)
+		
+		freeze = true
+		if Input.is_action_just_pressed("mouse_left") or\
+				Input.is_action_just_pressed("mouse_right"):
+				held = false
+				freeze =false
+				# velocity = 0
+				# $CollisionShape2D.disabled=false
+				# $pot_picked.visible = false
+				# $pot_onfloor.visible = true
+		
+	elif on_area && Input.is_action_just_pressed("mouse_left"):
+			held = true
+			mouse_offset = global_transform.origin - get_global_mouse_position()
+			# $CollisionShape2D.disabled=false #we use move and collide kasi
+			# $pot_picked.visible = true #tmp
+			# $pot_onfloor.visible = false #temp
+			# $pot_picked2.play()
+
 	
 func drop():
 	print("🌱seed dropped on the floor")

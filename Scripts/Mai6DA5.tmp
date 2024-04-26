@@ -1,0 +1,209 @@
+[gd_scene load_steps=15 format=3 uid="uid://ulhcjrecw6cu"]
+
+[ext_resource type="Script" path="res://Scripts/Main.gd" id="1_vnitf"]
+[ext_resource type="PackedScene" uid="uid://jwiagnrnjrmf" path="res://Scripts/Pot.tscn" id="2_fgks8"]
+[ext_resource type="PackedScene" uid="uid://bscxirsleadin" path="res://Scripts/Seed.tscn" id="2_g2wa7"]
+[ext_resource type="AudioStream" uid="uid://73v5lrku1455" path="res://Audio/Audio_Always_Loaded.069.ogg" id="4_ho067"]
+[ext_resource type="Shader" path="res://Scripts/pixelate.gdshader" id="6_4boxv"]
+[ext_resource type="Texture2D" uid="uid://cup5la3vsnwd8" path="res://Images/background3.png" id="6_88orc"]
+[ext_resource type="PackedScene" uid="uid://dbv575hnhrdcm" path="res://bottle.tscn" id="7_uevhs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y6li4"]
+size = Vector2(1301, 10)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_6ws5m"]
+polygon = PackedVector2Array(-73, 0, -73, -20, -298, -21, -300, 3, -251.936, 2.36481)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1sdi7"]
+shader = ExtResource("6_4boxv")
+shader_parameter/pixelSize = 4
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_amiem"]
+radius = 67.0255
+height = 1662.69
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cgumf"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_oaluo"]
+a = Vector2(-9, -10)
+b = Vector2(639, -10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jagrf"]
+size = Vector2(650, 8)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_vnitf")
+seed_button = ExtResource("2_g2wa7")
+pot = ExtResource("2_fgks8")
+
+[node name="tabletop" type="Area2D" parent="."]
+position = Vector2(-16, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="tabletop"]
+position = Vector2(302, 704)
+shape = SubResource("RectangleShape2D_y6li4")
+
+[node name="Table2" type="StaticBody2D" parent="."]
+position = Vector2(-16, 96)
+
+[node name="Table" type="LightOccluder2D" parent="Table2"]
+position = Vector2(1285, 835)
+scale = Vector2(5.145, 0.58)
+occluder = SubResource("OccluderPolygon2D_6ws5m")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Table2"]
+position = Vector2(304, 648)
+scale = Vector2(1, 4.56)
+shape = SubResource("RectangleShape2D_y6li4")
+
+[node name="DayTimer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="NightTimer" type="Timer" parent="."]
+wait_time = 30.0
+one_shot = true
+
+[node name="NightFilter" type="CanvasModulate" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.211765)
+self_modulate = Color(0, 0, 0, 0.345098)
+color = Color(0.27451, 0.380392, 0.4, 1)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -1
+offset_right = 632.0
+offset_bottom = 915.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("6_88orc")
+stretch_mode = 4
+
+[node name="Light" type="DirectionalLight2D" parent="."]
+material = SubResource("ShaderMaterial_1sdi7")
+position = Vector2(300, 0)
+rotation = 0.410152
+color = Color(1, 0.807843, 0.690196, 1)
+energy = 1.05
+range_z_max = 1
+shadow_enabled = true
+shadow_filter = 2
+shadow_filter_smooth = 16.0
+
+[node name="Area2D" type="Area2D" parent="Light"]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Light/Area2D"]
+shape = SubResource("CapsuleShape2D_amiem")
+
+[node name="ShapeCast2D" type="ShapeCast2D" parent="Light"]
+shape = SubResource("CapsuleShape2D_cgumf")
+target_position = Vector2(12.2208, 800.522)
+
+[node name="Wall" type="LightOccluder2D" parent="."]
+position = Vector2(546, -44)
+scale = Vector2(5.145, 0.58)
+occluder = SubResource("OccluderPolygon2D_6ws5m")
+
+[node name="Wall2" type="LightOccluder2D" parent="."]
+position = Vector2(1985, -52)
+scale = Vector2(5.145, 0.58)
+occluder = SubResource("OccluderPolygon2D_6ws5m")
+
+[node name="TimeLabel" type="Label" parent="."]
+offset_left = 510.0
+offset_top = 11.0
+offset_right = 550.0
+offset_bottom = 34.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+text = "Hello"
+
+[node name="DayCountLabel" type="Label" parent="."]
+offset_left = 510.0
+offset_top = 29.0
+offset_right = 558.0
+offset_bottom = 52.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+text = "Day: 1"
+
+[node name="WindowLight" type="ColorRect" parent="."]
+z_index = -2
+offset_left = 193.0
+offset_top = -34.0
+offset_right = 398.0
+offset_bottom = 79.0
+color = Color(0.152941, 0.192157, 0.321569, 1)
+
+[node name="pot_drop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_ho067")
+
+[node name="PotButton" type="Button" parent="."]
+offset_top = 32.0
+offset_right = 123.0
+offset_bottom = 63.0
+text = "Instantiate Pot"
+
+[node name="SunflowerButton" type="Button" parent="."]
+z_index = 1
+offset_right = 8.0
+offset_bottom = 8.0
+text = "SunflowerSeed"
+flat = true
+
+[node name="PlaceAreas" type="CanvasGroup" parent="."]
+visible = false
+
+[node name="5" type="Area2D" parent="PlaceAreas" groups=["rest_places"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlaceAreas/5"]
+position = Vector2(0, 600)
+shape = SubResource("SegmentShape2D_oaluo")
+
+[node name="4" type="Area2D" parent="PlaceAreas" groups=["rest_places"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlaceAreas/4"]
+position = Vector2(0, 624)
+shape = SubResource("SegmentShape2D_oaluo")
+
+[node name="3" type="Area2D" parent="PlaceAreas" groups=["rest_places"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlaceAreas/3"]
+position = Vector2(0, 648)
+shape = SubResource("SegmentShape2D_oaluo")
+
+[node name="2" type="Area2D" parent="PlaceAreas" groups=["rest_places"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlaceAreas/2"]
+position = Vector2(0, 688)
+shape = SubResource("SegmentShape2D_oaluo")
+
+[node name="1" type="Area2D" parent="PlaceAreas" groups=["rest_places"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlaceAreas/1"]
+position = Vector2(0, 728)
+shape = SubResource("SegmentShape2D_oaluo")
+
+[node name="0" type="Area2D" parent="PlaceAreas" groups=["rest_places"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlaceAreas/0"]
+position = Vector2(0, 768)
+shape = SubResource("SegmentShape2D_oaluo")
+
+[node name="bottleplace" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bottleplace"]
+position = Vector2(320, 608)
+shape = SubResource("RectangleShape2D_jagrf")
+
+[node name="Bottle" parent="." instance=ExtResource("7_uevhs")]
+position = Vector2(304, 432)
+
+[connection signal="body_entered" from="tabletop" to="." method="_on_tabletop_body_entered"]
+[connection signal="timeout" from="DayTimer" to="." method="_on_day_timer_timeout"]
+[connection signal="timeout" from="NightTimer" to="." method="_on_night_timer_timeout"]
+[connection signal="pressed" from="PotButton" to="." method="_on_pot_button_pressed"]
+[connection signal="pressed" from="SunflowerButton" to="." method="_on_sunflower_pressed"]

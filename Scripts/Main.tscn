@@ -29,7 +29,7 @@ a = Vector2(-9, -10)
 b = Vector2(639, -10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jagrf"]
-size = Vector2(650, 8)
+size = Vector2(650, 28)
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_vnitf")
@@ -45,6 +45,7 @@ shape = SubResource("RectangleShape2D_y6li4")
 
 [node name="Table2" type="StaticBody2D" parent="."]
 position = Vector2(-16, 96)
+collision_mask = 3
 
 [node name="Table" type="LightOccluder2D" parent="Table2"]
 position = Vector2(1285, 835)
@@ -191,17 +192,20 @@ shape = SubResource("SegmentShape2D_oaluo")
 position = Vector2(0, 768)
 shape = SubResource("SegmentShape2D_oaluo")
 
-[node name="bottleplace" type="Area2D" parent="."]
-collision_layer = 8
-collision_mask = 12
+[node name="bottleplace" type="StaticBody2D" parent="."]
+visible = false
+collision_layer = 12
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="bottleplace"]
-position = Vector2(320, 608)
+visible = false
+position = Vector2(320, 618)
 shape = SubResource("RectangleShape2D_jagrf")
+disabled = true
 
 [node name="Bottle" parent="." instance=ExtResource("7_uevhs")]
 position = Vector2(304, 432)
-scale = Vector2(4, 4)
+collision_mask = 12
 
 [connection signal="body_entered" from="tabletop" to="." method="_on_tabletop_body_entered"]
 [connection signal="timeout" from="DayTimer" to="." method="_on_day_timer_timeout"]

@@ -12,9 +12,11 @@ radius = 16.0312
 [node name="Seed" type="RigidBody2D" groups=["seed"]]
 z_index = 1
 position = Vector2(-1, 0)
+collision_layer = 5
 collision_mask = 11
 mass = 10.0
 can_sleep = false
+freeze_mode = 1
 script = ExtResource("1_hpve6")
 plant_seed = ExtResource("2_bvgh1")
 
@@ -23,6 +25,7 @@ position = Vector2(1, 0)
 shape = SubResource("RectangleShape2D_7f5g7")
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(1, 0)
